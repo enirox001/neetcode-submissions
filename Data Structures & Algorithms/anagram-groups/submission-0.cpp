@@ -1,34 +1,30 @@
-#include <algorithm>
-
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        // keep a map of the strings
-        // each map will reference a list of strings
-        // the key will be a sorted map
-        // loop through the vector
-        // if the sorted strimg, matches the key add the string to the vector
-        // if not add the new key and add the vector
-        // loop through the map and return the list of the vector lists
+        // the way to know if a string belongs to one is to sort it and check
+        // so i would sort a string and then use it in a map as a key
+        // check a new string in the map, if it exists add it to the list of the map values
+        // if it does not exist, add a new sorted string key and then add the value as a new element in the list
+        // loop through the elements of the map values (already lists)
+        // for each fo the list add them to the global list that will be returned
+        // return the list of lists (vector of vectors)
 
-        map<string, vector<string>> mapObj;
-
-        vector<vector<string>> sortedVec;
-
+        map<string, vector<string>> anagram;
+        vector<vector<string>> anagramRes;
         for (auto str : strs) {
-            string sorted_str = str;
-            sort(sorted_str.begin(), sorted_str.end());
-            if (mapObj.contains(sorted_str)) {
-                mapObj[sorted_str].push_back(str);
+            string key = str;
+            sort(key.begin(), key.end());
+            if (anagram.find(key) != anagram.end()) {
+                anagram[key].push_back(str);
             } else {
-                mapObj[sorted_str] = {str};
+                anagram[key] = {str};
             }
         }
 
-        for (auto [key, vec] : mapObj) {
-            sortedVec.push_back(vec);
+        for (auto const& [_, v] : anagram) {
+            anagramRes.push_back(v);
         }
-        
-        return sortedVec;
+
+        return anagramRes;
     }
 };
